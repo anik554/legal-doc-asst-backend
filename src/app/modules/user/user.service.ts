@@ -1,50 +1,39 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import AppError from "../../errorHelpers/AppError";
+import { AuthProvider } from "../../interfaces";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
 import StatusCode from "http-status";
+import bcryptjs from "bcryptjs";
 
 export const createUser = async (payload: Partial<IUser>) => {
-  try {
-    const user = await User.create({
-      ...payload,
-      auths: [
-        {
-          provider: "credentials",
-          providerId: "",
-        },
-      ],
-    });
-    user.auths[0].providerId = user._id.toString();
-    await user.save();
-    return user.toObject();
-  } catch (error: any) {
-    if (error?.code === 11000) {
-      const field = Object.keys(error.keyValue || {})[0];
-      const value = error.keyValue?.[field];
 
-      throw new AppError(
-        `${field} "${value}" already exists`,
-        StatusCode.BAD_REQUEST,
-        error.stack,
-      );
-    }
+  const {email, password, ...rest} = payload;
+  
+  const isUserExist = await User.findOne({email})
 
-    throw error;
+  if(isUserExist){
+    throw new AppError("User Already Exist", StatusCode.BAD_REQUEST);
   }
+
+  const hashedPassword = await bcryptjs.hash(password as string, 10);
+
+  const authProvider: AuthProvider = { provider: "credentials", providerId: email as string}
+
+  const newUser = await User.create({
+    email,
+    auths: [authProvider],
+    password: hashedPassword,
+    ...rest
+  })
+
+  const {password: _, ...userWithoutPassword} = newUser.toObject();
+
+  return userWithoutPassword;
 };
 
 const getUsers = async () => {
-  try {
-    const users = await User.find();
-    return users.map(user => user.toObject());
-  } catch (error: any) {
-    throw new AppError(
-      "Failed to retrieve users",
-      StatusCode.INTERNAL_SERVER_ERROR,
-      error.stack,
-    );
-  }
+  const users = await User.find({})
+  return users
 };
 
 export const UserServices = {
