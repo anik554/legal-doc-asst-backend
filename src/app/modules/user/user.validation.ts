@@ -1,5 +1,5 @@
 import z from "zod";
-import { ActiveTypes } from "../../interfaces";
+import { ActiveTypes, Role } from "../../interfaces";
 
 export const createUserZodSchema = z.object({
   name: z
@@ -23,6 +23,7 @@ export const createUserZodSchema = z.object({
     .optional(),
 
   avatar: z.string().url({ message: "Avatar must be a valid URL" }).optional(),
+  role: z.enum(Object.values(Role)),
 
   address: z
     .string()

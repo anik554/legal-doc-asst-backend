@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { IUser } from "./user.interface";
-import { ActiveTypes } from "../../interfaces";
+import { ActiveTypes, Role } from "../../interfaces";
 
 const authSchema = new Schema(
   {
@@ -23,6 +23,7 @@ const userSchema = new Schema<IUser>(
     avatar: { type: String },
     address: { type: String },
     isDeleted: { type: Boolean, default: false },
+    role:{type: String, default: Role.USER},
     isActive: {
       type: String,
       enum: Object.values(ActiveTypes),
