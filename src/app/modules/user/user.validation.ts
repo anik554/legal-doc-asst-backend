@@ -23,7 +23,7 @@ export const createUserZodSchema = z.object({
     .optional(),
 
   avatar: z.string().url({ message: "Avatar must be a valid URL" }).optional(),
-  role: z.enum(Object.values(Role)),
+  role: z.enum(Object.values(Role)).optional(),
 
   address: z
     .string()

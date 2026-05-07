@@ -17,8 +17,6 @@ const createUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response)=>{
   const userId = req.params.id;
   const verfiedToken = req.user;
-  // const token = req.headers.authorization || req.headers.cookie;
-  // const verfiedToken = verifyToken(token as string, envVars.JWT_ACCESS_SECRET) as JwtPayload
   const payload= req.body;
   const user = await UserServices.updateUser(userId as string, payload, verfiedToken)
 
