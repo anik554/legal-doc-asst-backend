@@ -13,10 +13,11 @@ interface EnvConfig {
   SUPER_ADMIN_EMAIL:string;
   SUPER_ADMIN_PASSWORD:string;
   JWT_REFRSH_EXPIRES:string;
+  GOOGLE_API_KEY:string;
 }
 
 const loadEnvVariables = (): EnvConfig => {
-  const requiredEnvVariables: string[] = ["PORT", "DB_URL", "NODE_ENV","JWT_ACCESS_SECRET","JWT_REFRESH_SECRET","SOLT_ROUND","JWT_EXPIRES","SUPER_ADMIN_EMAIL","SUPER_ADMIN_PASSWORD","JWT_REFRSH_EXPIRES"];
+  const requiredEnvVariables: string[] = ["PORT", "DB_URL", "NODE_ENV","JWT_ACCESS_SECRET","JWT_REFRESH_SECRET","SOLT_ROUND","JWT_EXPIRES","SUPER_ADMIN_EMAIL","SUPER_ADMIN_PASSWORD","JWT_REFRSH_EXPIRES","GOOGLE_API_KEY"];
 
   requiredEnvVariables.forEach((key) => {
     if (!process.env[key]) {
@@ -35,6 +36,7 @@ const loadEnvVariables = (): EnvConfig => {
     SUPER_ADMIN_EMAIL:process.env.SUPER_ADMIN_EMAIL as string,
     SUPER_ADMIN_PASSWORD:process.env.SUPER_ADMIN_PASSWORD as string,
     JWT_REFRSH_EXPIRES:process.env.JWT_REFRSH_EXPIRES as string,
+    GOOGLE_API_KEY:process.env.GOOGLE_API_KEY as string,
   };
 };
 

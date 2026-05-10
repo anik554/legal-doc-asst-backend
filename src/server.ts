@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import app from "./app";
 import { envVars } from "./app/config/env";
 import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
+import { initVectorStore } from "./app/config/langchain.config";
 
 let server: Server;
 
@@ -13,19 +14,21 @@ const startServer = async () => {
     await mongoose.connect(envVars.DB_URL);
     console.log("Connected to DB!!");
 
+    await initVectorStore();
+    console.log("Vector store initialised!!");
+
+    await seedSuperAdmin();
+    console.log("Super-admin seeded!!");
+
     server = app.listen(envVars.PORT, () => {
       console.log(`Server is listening to port ${envVars.PORT}`);
     });
   } catch (err) {
-    console.error(err);
+    console.error("Startup error:",err);
   }
 };
 
-
-(async ()=>{
-  await startServer();
-  await seedSuperAdmin()
-})()
+startServer();
 
 process.on("SIGTERM", () => {
   console.log("SIGTERM signal recieved... Server shutting down..");
