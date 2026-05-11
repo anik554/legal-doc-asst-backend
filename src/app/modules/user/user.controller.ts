@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import StatusCode from "http-status";
 import { UserServices } from "./user.service";
 import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../shared/catchAsync";
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = catchAsync(async (req: Request, res: Response) => {
   const user = await UserServices.createUser(req.body);
 
   sendResponse(res, {
@@ -12,7 +13,7 @@ const createUser = async (req: Request, res: Response) => {
     message: "User Created Successfully!",
     data: user,
   })
-};
+})
 
 const updateUser = async (req: Request, res: Response)=>{
   const userId = req.params.id;
@@ -28,7 +29,7 @@ const updateUser = async (req: Request, res: Response)=>{
   })
 }
 
-const getUsers = async (req: Request, res: Response) => {
+const getUsers = catchAsync(async (req: Request, res: Response) => {
   const users = await UserServices.getUsers();
 
   sendResponse(res, {
@@ -37,7 +38,7 @@ const getUsers = async (req: Request, res: Response) => {
     message: "Users retrieved successfully!",
     data: users,
   })
-};
+})
 
 export const UserControllers = {
   createUser,
