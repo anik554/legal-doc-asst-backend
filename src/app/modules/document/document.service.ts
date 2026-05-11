@@ -57,7 +57,6 @@ const processDocument = async (
             documentId: doc._id.toString(),
             userId,
             chunkIndex: i,
-            ...metadata,
           },
         })
     );
@@ -98,7 +97,7 @@ const queryLegalDocuments = async (
     k,
     {
       preFilter: {
-        equals: { path: "metadata.userId", value: userId },
+        userId: { $eq: userId },
       },
     }
   );

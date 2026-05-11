@@ -46,7 +46,7 @@ const queryLegalDocuments = catchAsync(
 
     const topK = Math.min(Number(k) || 6, 20);
 
-    const result = await DocumentServices.queryLegalDocuments(userId, question.trim(), topK);
+    const result = await DocumentServices.queryLegalDocuments(userId as string, question.trim(), topK);
 
     sendResponse(res, {
       statusCode: HttpStatus.OK,

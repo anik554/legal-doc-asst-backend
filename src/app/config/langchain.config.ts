@@ -7,19 +7,19 @@ import { envVars } from "./env";
 
 export const docEmbeddings = new GoogleGenerativeAIEmbeddings({
   model: "gemini-embedding-001",
-  apiKey: envVars.GOOGLE_API_KEY,
+  apiKey: envVars.GEMINI_API_KEY,
   taskType: TaskType.RETRIEVAL_DOCUMENT,
 });
 
 export const queryEmbeddings = new GoogleGenerativeAIEmbeddings({
   model: "gemini-embedding-001",
-  apiKey: envVars.GOOGLE_API_KEY,
+  apiKey: envVars.GEMINI_API_KEY,
   taskType: TaskType.RETRIEVAL_QUERY,
 });
 
 export const llm = new ChatGoogleGenerativeAI({
   model: "gemini-1.5-flash",
-  apiKey: envVars.GOOGLE_API_KEY,
+  apiKey: envVars.GEMINI_API_KEY,
   temperature: 0.3,
   maxOutputTokens: 2048,
 });
