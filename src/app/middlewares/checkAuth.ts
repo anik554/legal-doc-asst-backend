@@ -7,7 +7,7 @@ import { JwtPayload } from "jsonwebtoken";
 
 export const checkAuth = (...authRoles: string[])=> async (req: Request, res: Response, next: NextFunction)=>{
     try {
-        const accessToken = req.headers.authorization || req.headers.cookie
+        const accessToken =  req.cookies.accessToken
         if(!accessToken){
             throw new AppError("No Token Received", StatusCode.NOT_FOUND)
         }
